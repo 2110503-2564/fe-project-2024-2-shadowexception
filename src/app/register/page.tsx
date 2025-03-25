@@ -1,4 +1,3 @@
-// src/app/register/page.tsx
 "use client";
 import { useState } from "react";
 import userSignUp from "@/libs/userSignUp";
@@ -12,6 +11,8 @@ export default function RegisterPage() {
     const [userRole, setUserRole] = useState("user");
     const [userPassword, setUserPassword] = useState("");
     const [userTel, setUserTel] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
+
     const router = useRouter();
     const searchParams = useSearchParams();
     const callbackUrl = searchParams.get("callbackUrl") || "/";
@@ -23,9 +24,11 @@ export default function RegisterPage() {
                 userEmail,
                 userRole,
                 userPassword,
-                userTel,
+                userTel
             );
+
             console.log(result);
+
             // Sign in the user after successful registration
             const signInResult = await signIn("credentials", {
                 email: userEmail,
@@ -34,13 +37,18 @@ export default function RegisterPage() {
             });
 
             if (signInResult?.error) {
-                alert("Login Failed! " + signInResult.error);
+                setErrorMessage("Login Failed! " + signInResult.error);
             } else {
-                // Redirect to the banner page
+                // Redirect to the callbackUrl after successful login
                 router.push(callbackUrl);
+                router.refresh(); // Refresh หน้าเพื่อโหลดข้อมูลใหม่
             }
         } catch (error: any) {
-            alert("Signup Failed! " + error.message);
+            if (error.response && error.response.data && error.response.data.message) {
+                setErrorMessage(error.response.data.message);  // Set error message from backend
+            } else {
+                setErrorMessage("An unexpected error occurred");
+            }
         }
     };
 
@@ -48,6 +56,11 @@ export default function RegisterPage() {
         <Box className="flex justify-center items-center min-h-screen bg-gray-100">
             <Box className="w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
                 <Typography className="text-2xl font-bold text-center text-blue-600 mb-6">Sign Up</Typography>
+
+                {errorMessage && (
+                    <Typography className="text-red-500 text-sm text-center mb-4">{errorMessage}</Typography>
+                )}
+
                 <Box className="space-y-4">
                     <Typography className="text-xl font-bold text-blue-600">Name</Typography>
                     <TextField
@@ -56,6 +69,7 @@ export default function RegisterPage() {
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         onChange={(e) => setUserName(e.target.value)}
                     />
+                    
                     <Typography className="text-xl font-bold text-blue-600">Email</Typography>
                     <TextField
                         type="email"
@@ -63,6 +77,7 @@ export default function RegisterPage() {
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         onChange={(e) => setUserEmail(e.target.value)}
                     />
+                    
                     <Typography className="text-xl font-bold text-blue-600">Password</Typography>
                     <TextField
                         type="password"
@@ -70,6 +85,7 @@ export default function RegisterPage() {
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         onChange={(e) => setUserPassword(e.target.value)}
                     />
+
                     <Typography className="text-xl font-bold text-blue-600">Telephone Number</Typography>
                     <TextField
                         type="text"
@@ -78,6 +94,7 @@ export default function RegisterPage() {
                         onChange={(e) => setUserTel(e.target.value)}
                     />
                 </Box>
+
                 <Button
                     onClick={handleSignUp}
                     className="w-full mt-6 py-2 px-4 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
