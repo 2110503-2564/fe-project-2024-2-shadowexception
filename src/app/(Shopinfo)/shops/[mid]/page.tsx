@@ -1,5 +1,5 @@
 import Image from "next/image";
-import getVenue from "@/libs/getShop";
+import getShop from "@/libs/getShop";
 import BookingForm from "@/components/BookingForm";
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions';
@@ -8,7 +8,7 @@ import { orange, grey } from "@mui/material/colors";
 import { Suspense } from "react";
 
 export default async function ShopDetailPage({ params }: { params: { mid: string } }) {
-    const shopDetail = await getVenue(params.mid);
+    const shopDetail = await getShop(params.mid);
     const session = await getServerSession(authOptions);
 
     if (!shopDetail || !shopDetail.data) {

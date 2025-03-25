@@ -62,7 +62,7 @@ const BookingListClient: React.FC<BookingListClientProps> = ({ token, bookings }
     return (
         <div className="p-5">
             {updatedBookings.length === 0 ? (
-                <div className="text-center text-lg text-orange-600">No Venue Booking</div>
+                <div className="text-center text-lg text-orange-600">No Shops Booking</div>
             ) : (
                 updatedBookings.map((item) => (
                     <div

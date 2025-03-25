@@ -19,7 +19,7 @@ export const bookSlice = createSlice({
                 (item : ReservationItem ) => item.user === user && item.shop === shop && item.reservationDate === reservationDate
             );
 
-            if (existingBookingIndex !== -1) { //if found the same venue and bookDate | replace it
+            if (existingBookingIndex !== -1) {
                 state.bookItems[existingBookingIndex] = { ...action.payload };
             } else {
                 state.bookItems.push(action.payload);
