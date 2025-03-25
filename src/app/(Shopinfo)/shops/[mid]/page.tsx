@@ -3,8 +3,9 @@ import getVenue from "@/libs/getShop";
 import BookingForm from "@/components/BookingForm";
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions';
-import { Paper, Typography, Grid, Box, Divider } from "@mui/material";
+import { Paper, Typography, Grid, Box, Divider, LinearProgress } from "@mui/material";
 import { orange, grey } from "@mui/material/colors";
+import { Suspense } from "react";
 
 export default async function ShopDetailPage({ params }: { params: { mid: string } }) {
     const shopDetail = await getVenue(params.mid);
@@ -76,6 +77,7 @@ export default async function ShopDetailPage({ params }: { params: { mid: string
                                 height={0}
                                 sizes="100vw"
                                 style={{ width: '100%', height: 'auto', objectFit: 'cover' }} // Add objectFit
+                                loading="lazy"
                             />
                         </Box>
                     </Grid>
@@ -116,11 +118,13 @@ export default async function ShopDetailPage({ params }: { params: { mid: string
                 </Grid>
 
                 <Divider sx={{ my: 4, borderColor: orange[300] }} />
-
-                <Box sx={{ padding: 3 }}>
-                    <BookingForm session={session} shop={shopDetail.data} />
-                </Box>
+                <Suspense fallback={<p>Loading . . . <LinearProgress/></p>}>
+                    <Box sx={{ padding: 3 }}>
+                        <BookingForm session={session} shop={shopDetail.data} />
+                    </Box>
+                </Suspense>
             </Paper>
         </Box>
+        
     );
 }

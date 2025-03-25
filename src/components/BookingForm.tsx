@@ -24,7 +24,6 @@ interface BookingFormProps {
 }
 
 export default function BookingForm({ session, shop }: BookingFormProps) {
-    const dispatch = useDispatch<AppDispatch>();
     const [reserveDate, setReserveDate] = useState<Dayjs | null>(null);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');

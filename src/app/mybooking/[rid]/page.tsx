@@ -73,6 +73,7 @@ export default async function EditBookingPage({ params }: { params: { rid: strin
                                 height={0}
                                 sizes="100vw"
                                 style={{ width: '100%', height: 'auto' , objectFit: 'cover' }}
+                                loading="lazy"
                             />
                         </Box>
                     </Grid>

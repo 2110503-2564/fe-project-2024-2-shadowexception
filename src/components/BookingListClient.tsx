@@ -69,14 +69,16 @@ const BookingListClient: React.FC<BookingListClientProps> = ({ token, bookings }
                         className="bg-white border-2 border-orange-500 rounded-lg px-6 py-4 my-3 text-black shadow-md"
                         key={item._id}
                     >
+                        
                         <div className="flex flex-row items-center space-x-5">
                             <div>
                                 <Image
                                     src={item.shop.picture ?? '/img/logo.png'}
                                     alt="Item Picture"
                                     width={120}
-                                    height={120}
+                                    height={100}
                                     className="object-cover rounded-lg border border-orange-300"
+                                    loading="lazy"
                                 />
                             </div>
                             <div className="flex-1">

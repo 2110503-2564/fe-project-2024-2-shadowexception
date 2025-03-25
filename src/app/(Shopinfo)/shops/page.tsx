@@ -6,6 +6,8 @@ import MassageCatalogServer from "@/components/MassageCatalogServer";
 import Footer from "@/components/Footer";
 // import CardPanel from "@/components/CardPanel";
 
+export const revalidate = 60;   // Revalidate the data every 60 seconds
+
 export default function shop(){
     
     const shops : Promise<ShopJson> = getShops();

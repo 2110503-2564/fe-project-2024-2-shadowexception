@@ -36,6 +36,7 @@ const MassageCatalogClient: React.FC<MassageCatalogClientProps> = ({ shopJsonRea
                 width={500} // กำหนดขนาดความกว้าง
                 height={300} // กำหนดขนาดความสูง
                 layout="intrinsic" // ใช้ layout เพื่อให้ขนาดภาพไม่ผิดเพี้ยน
+                loading="lazy"
               />
               <div className="p-4 flex-grow">
                 <h3 className="text-xl font-semibold text-gray-800">{ShopItem.name}</h3>

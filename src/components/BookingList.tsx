@@ -3,10 +3,8 @@ import BookingListClient from "./BookingListClient";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getServerSession } from "next-auth/next";
 import getReservations from "@/libs/getReservations";
-import { removeBooking } from "@/redux/features/bookSlice";
-import deleteReservation from "@/libs/deleteReservation";
-import { AppDispatch } from "@/redux/store";
-import { useDispatch } from "react-redux";
+import { Suspense } from "react";
+import { LinearProgress } from "@mui/material";
 
 export default async function BookingList() {
     const session = await getServerSession(authOptions);
@@ -16,10 +14,12 @@ export default async function BookingList() {
 
     return (
         <>
-            <BookingListClient
-                token={session.user.token.toString()} 
-                bookings={bookingItems.data}
-            />
+            <Suspense fallback={<p>Loading . . . <LinearProgress/></p>}>
+                <BookingListClient
+                    token={session.user.token.toString()} 
+                    bookings={bookingItems.data}
+                />
+            </Suspense>
         </>
     );
 }
